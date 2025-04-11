@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>½u¤W¤H­û¤W¯Zª¬ºA</title>
+    <meta charset="UTF-8">
+    <title>ç·šä¸Šäººå“¡ä¸Šç­ç‹€æ…‹</title>
     <style>
         body {
             font-family: sans-serif;
@@ -31,54 +32,54 @@
             border-radius: 5px;
             cursor: pointer;
         }
-        .¤W¤u¤¤ {
+        .ä¸Šå·¥ä¸­ {
             background-color: #4CAF50;
             color: white;
         }
-        .¤w¤U¯Z {
+        .å·²ä¸‹ç­ {
             background-color: #f44336;
             color: white;
         }
     </style>
 </head>
 <body>
-    <h1>½u¤W¤H­û¤W¯Zª¬ºA</h1>
+    <h1>ç·šä¸Šäººå“¡ä¸Šç­ç‹€æ…‹</h1>
     <div id="statusList">
         </div>
 
     <script>
-        const API_URL = 'https://script.google.com/macros/s/AKfycbzi5-Pc_J1eFE49SBx6P12IBV8C5LeM0p8ucQm_QgJudBA0E0Z5Z19kcGAYG4B4ko9D/exec'; // ±N³o¸Ì´À´«¦¨§Aªº Web À³¥Îµ{¦¡ºô§}
+        const API_URL = 'https://script.google.com/macros/s/AKfycbzi5-Pc_J1eFE49SBx6P12IBV8C5LeM0p8ucQm_QgJudBA0E0Z5Z19kcGAYG4B4ko9D/exec'; // å°‡é€™è£¡æ›¿æ›æˆä½ çš„ Web æ‡‰ç”¨ç¨‹å¼ç¶²å€
         const statusListDiv = document.getElementById('statusList');
 
         function fetchStatus() {
             fetch(API_URL)
                 .then(response => response.json())
                 .then(data => {
-                    statusListDiv.innerHTML = ''; // ²MªÅ²{¦³¦Cªí
+                    statusListDiv.innerHTML = ''; // æ¸…ç©ºç¾æœ‰åˆ—è¡¨
                     data.forEach(person => {
                         const container = document.createElement('div');
                         container.classList.add('status-container');
 
                         const nameSpan = document.createElement('span');
                         nameSpan.classList.add('name');
-                        nameSpan.textContent = person.©m¦W;
+                        nameSpan.textContent = person.å§“å;
 
                         const statusSpan = document.createElement('span');
                         statusSpan.classList.add('status');
-                        statusSpan.textContent = person.ª¬ºA;
+                        statusSpan.textContent = person.ç‹€æ…‹;
 
                         const buttonContainer = document.createElement('div');
                         buttonContainer.classList.add('button-container');
 
                         const onDutyButton = document.createElement('button');
-                        onDutyButton.textContent = '¤W¤u';
-                        onDutyButton.classList.add('¤W¤u¤¤');
-                        onDutyButton.addEventListener('click', () => updateStatus(person.©m¦W, '¤W¤u¤¤'));
+                        onDutyButton.textContent = 'ä¸Šå·¥';
+                        onDutyButton.classList.add('ä¸Šå·¥ä¸­');
+                        onDutyButton.addEventListener('click', () => updateStatus(person.å§“å, 'ä¸Šå·¥ä¸­'));
 
                         const offDutyButton = document.createElement('button');
-                        offDutyButton.textContent = '¤U¯Z';
-                        offDutyButton.classList.add('¤w¤U¯Z');
-                        offDutyButton.addEventListener('click', () => updateStatus(person.©m¦W, '¤w¤U¯Z'));
+                        offDutyButton.textContent = 'ä¸‹ç­';
+                        offDutyButton.classList.add('å·²ä¸‹ç­');
+                        offDutyButton.addEventListener('click', () => updateStatus(person.å§“å, 'å·²ä¸‹ç­'));
 
                         buttonContainer.appendChild(onDutyButton);
                         buttonContainer.appendChild(offDutyButton);
@@ -100,19 +101,19 @@
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    fetchStatus(); // ­«·s¸ü¤Jª¬ºA
+                    fetchStatus(); // é‡æ–°è¼‰å…¥ç‹€æ…‹
                 } else {
                     console.error('Failed to update status:', data.error);
-                    alert('§ó·sª¬ºA¥¢±Ñ¡I');
+                    alert('æ›´æ–°ç‹€æ…‹å¤±æ•—ï¼');
                 }
             })
             .catch(error => console.error('Error updating status:', error));
         }
 
-        // ­¶­±¸ü¤J®É¸ü¤Jªì©lª¬ºA
+        // é é¢è¼‰å…¥æ™‚è¼‰å…¥åˆå§‹ç‹€æ…‹
         fetchStatus();
 
-        // ¥i¥H³]©w©w®É§ó·s (¨Ò¦p¨C 5 ¬í)
+        // å¯ä»¥è¨­å®šå®šæ™‚æ›´æ–° (ä¾‹å¦‚æ¯ 5 ç§’)
         // setInterval(fetchStatus, 5000);
     </script>
 </body>
