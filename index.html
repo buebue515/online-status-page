@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>線上人員上班狀態</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .status-container {
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+        }
+        .name {
+            margin-right: 15px;
+            font-weight: bold;
+        }
+        .status {
+            margin-right: 15px;
+        }
+        .button-container button {
+            padding: 8px 15px;
+            margin-right: 5px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .上工中 {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .已下班 {
+            background-color: #f44336;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <h1>線上人員上班狀態</h1>
+    <div id="statusList">
+        </div>
+
+    <script>
+        const API_URL = 'https://script.google.com/macros/s/AKfycbzi5-Pc_J1eFE49SBx6P12IBV8C5LeM0p8ucQm_QgJudBA0E0Z5Z19kcGAYG4B4ko9D/exec'; // 將這裡替換成你的 Web 應用程式網址
+        const statusListDiv = document.getElementById('statusList');
+
+        function fetchStatus() {
+            fetch(API_URL)
+                .then(response => response.json())
+                .then(data => {
+                    statusListDiv.innerHTML = ''; // 清空現有列表
+                    data.forEach(person => {
+                        const container = document.createElement('div');
+                        container.classList.add('status-container');
+
+                        const nameSpan = document.createElement('span');
+                        nameSpan.classList.add('name');
+                        nameSpan.textContent = person.姓名;
+
+                        const statusSpan = document.createElement('span');
+                        statusSpan.classList.add('status');
+                        statusSpan.textContent = person.狀態;
+
+                        const buttonContainer = document.createElement('div');
+                        buttonContainer.classList.add('button-container');
+
+                        const onDutyButton = document.createElement('button');
+                        onDutyButton.textContent = '上工';
+                        onDutyButton.classList.add('上工中');
+                        onDutyButton.addEventListener('click', () => updateStatus(person.姓名, '上工中'));
+
+                        const offDutyButton = document.createElement('button');
+                        offDutyButton.textContent = '下班';
+                        offDutyButton.classList.add('已下班');
+                        offDutyButton.addEventListener('click', () => updateStatus(person.姓名, '已下班'));
+
+                        buttonContainer.appendChild(onDutyButton);
+                        buttonContainer.appendChild(offDutyButton);
+
+                        container.appendChild(nameSpan);
+                        container.appendChild(statusSpan);
+                        container.appendChild(buttonContainer);
+
+                        statusListDiv.appendChild(container);
+                    });
+                })
+                .catch(error => console.error('Error fetching data:', error));
+        }
+
+        function updateStatus(name, status) {
+            fetch(`${API_URL}?action=updateStatus&name=${encodeURIComponent(name)}&status=${encodeURIComponent(status)}`, {
+                method: 'POST',
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    fetchStatus(); // 重新載入狀態
+                } else {
+                    console.error('Failed to update status:', data.error);
+                    alert('更新狀態失敗！');
+                }
+            })
+            .catch(error => console.error('Error updating status:', error));
+        }
+
+        // 頁面載入時載入初始狀態
+        fetchStatus();
+
+        // 可以設定定時更新 (例如每 5 秒)
+        // setInterval(fetchStatus, 5000);
+    </script>
+</body>
+</html>
